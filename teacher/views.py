@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from . import forms,models
 from exam import models as QMODEL
 from student import models as SMODEL
+
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 # Create your views here.
@@ -121,3 +122,26 @@ def teacher_question_view(request):
 def see_question_view(request,pk):
     questions=QMODEL.Question.objects.all().filter(course_id=pk)
     return render(request,'teacher/see_question.html',{'questions':questions})
+
+def charts_view(request):
+    # Data for Course-Question Chart
+    courses = QMODEL.Course.objects.all()
+    course_data = {
+        course.course_name: course.question_set.count()
+        for course in courses
+    }
+
+    # Data for User-Student Chart
+    students = SMODEL.Student.objects.all()
+    user_data = {
+        student.get_name: student.address
+        for student in students
+    }
+    student_count = students.count() 
+
+    # Render template with context data
+    return render(request, 'teacher/chart_template.html', {
+        'course_data': course_data,
+        'user_data': user_data,
+        'student_data': student_count
+    })

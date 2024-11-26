@@ -14,9 +14,11 @@ urlpatterns = [
     path('teacher-exam', views.teacher_exam_view,name='teacher-exam'),
 
 
-    path('teacher-question', views.teacher_question_view,name='teacher-question'),
+path('teacher-question', views.teacher_question_view,name='teacher-question'),
 path('teacher-add-question', views.teacher_add_question_view,name='teacher-add-question'),
 path('teacher-view-question', views.teacher_view_question_view,name='teacher-view-question'),
 
 path('see-question/<int:pk>', views.see_question_view,name='see-question'),
+
+ path('charts/', views.charts_view, name='charts_view'),
 ]
